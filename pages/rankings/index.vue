@@ -98,7 +98,7 @@ export default {
 						"Ranking page for play and recommended equipment"
 				}
 			]
-		};
+		}
 	},
 	methods: {
 		color (score) {
@@ -114,5 +114,5 @@ export default {
 		},
 	},
 	middleware: "guest"
-};
+}
 </script>

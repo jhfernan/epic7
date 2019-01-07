@@ -25,5 +25,5 @@ export default {
 		};
 	},
 	middleware: "guest"
-};
+}
 </script>

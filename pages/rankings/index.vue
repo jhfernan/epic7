@@ -4,7 +4,7 @@
 		<v-data-table :headers="headers" :items="heroes" :rows-per-page-items="perPageItems">
 			<template slot="items" slot-scope="props">
 				<td class="pa-0">
-					<v-img :src="`/heroes/portrait/${props.item.name.replace(' ', '-').toLowerCase()}.png`" />
+					<v-img :src="`/heroes/portrait/${props.item.name.replace(/\s+/g, '-').toLowerCase()}.png`" />
 				</td>
 				<td><h2>{{ props.item.name }}</h2></td>
 				<td><h2>{{ props.item.stars }}</h2></td>

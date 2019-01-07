@@ -84,7 +84,7 @@ export default {
 				{ text: 'Actions', align: 'right', value: 'actions' },
 			],
 			loader: false,
-			perPageItems: [10, 25, {"text":"All","value":-1}],
+			perPageItems: [15, 30, {"text":"All","value":-1}],
 			util: util,
 		}
 	},

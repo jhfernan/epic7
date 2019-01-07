@@ -33,13 +33,23 @@ module.exports = {
 	auth: config.auth,
 	axios: config.axios,
 
-	css: ["@/assets/style/app.styl"],
+	css: [
+		"@/assets/style/app.styl"
+	],
 
-	loading: { color: "#FF5722" },
+	loading: { color: "#FFF" },
 
-	modules: ["@nuxtjs/auth", "@nuxtjs/axios"],
+	modules: [
+		"@nuxtjs/auth",
+		"@nuxtjs/axios"
+	],
 
-	plugins: ["@/plugins/app", "@/plugins/axios", "@/plugins/vuetify"],
+	plugins: [
+		"@/plugins/app",
+		"@/plugins/axios",
+		'@plugins/filters',
+		"@/plugins/vuetify"
+	],
 
 	serverMiddleware: config.middleware,
 

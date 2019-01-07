@@ -16,14 +16,13 @@ export default {
 		return {
 			meta: [
 				{
-					hid: "description",
-					name: "description",
-					content:
-						"Just a fan creation for Epic 7 for anyone interested in numbers, tier lists, and testing"
+					hid: 'description',
+					name: 'description',
+					content: 'Just a fan creation for Epic 7 for anyone interested in numbers, tier lists, and testing'
 				}
 			]
 		};
 	},
-	middleware: "guest"
+	middleware: 'guest'
 }
 </script>

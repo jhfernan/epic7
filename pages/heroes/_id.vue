@@ -6,17 +6,19 @@
 					<v-icon>first_page</v-icon>
 				</v-btn>
 			</template>
+			<template slot="trail">
+				<div class="e7-icons ml-2">
+					<span :class="hero.element"></span>
+					<span :class="hero.class.replace(/\s+/g, '-')"></span>
+				</div>
+			</template>
 		</c-title>
 		<v-layout row wrap>
 			<v-flex xs12 md3>
-			</v-flex>
-			<v-flex xs12 md3>
 				<v-img
-					contain
-					height="92px"
 					:src="`/heroes/portrait/${hero.name.replace(/\s+/g, '-').toLowerCase()}.png`" />
 			</v-flex>
-			<v-flex xs12 md3>
+			<v-flex xs12 md9>
 			</v-flex>
 		</v-layout>
 	</v-container>
@@ -27,9 +29,13 @@ import utilities from '~/components/app/util.js'
 
 export default {
 	asyncData ({ app, error, params }) {
-		return app.$axios.$get('/api/v1/heroes/' + params.id)
+		return app.$axios.$get('/api/v1/heroes/')
 			.then(res => {
-				return { hero: res, util: utilities }
+				return {
+					hero: res.find(hero => hero._id == params.id),
+					heroes: res,
+					util: utilities
+				}
 			})
 			.catch(err => { error({ statusCode: '404', message: 'Hero info not found' }) })
 	},
@@ -44,32 +50,6 @@ export default {
 				}
 			]
 		}
-	},
-	methods: {
-		// async deleteUser () {
-		// 	this.loader = true
-		// 	await this.$axios.$delete('/api/v1/users/' + this.deleteUserInfo._id)
-		// 	.then(res => {
-		// 		this.users = this.users.filter(e => e._id !== res)
-		// 		this.dialog = false
-		// 		this.deleteUserInfo = {}
-		// 	})
-		// 	.catch(err => { this.util.catchErrors(err, 'There was an error deleting the user', this.$store) })
-		// 	.finally(() => {
-		// 		this.loader = false
-		// 	})
-		// },
-		// async updateBody () {
-		// 	await this.$axios.$put(`/api/v1/questions/${this.question._id}`, { body: this.question.body })
-		// 	.then(res => {
-		// 		this.editingBody = true
-		// 		this.highlightAll()
-		// 	}).catch(err => {
-		// 		err.response
-		// 			? this.$store.dispatch('snack/showSnack', `Error ${err.response.data.status}: ${err.response.data.message}`)
-		// 			: this.$store.dispatch('snack/showSnack', 'There was an error while trying to update the body')
-		// 	})
-		// },
 	},
 	middleware: 'member',
 }

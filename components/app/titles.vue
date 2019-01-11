@@ -3,6 +3,7 @@
 		<slot name="lead"></slot>
 		<v-spacer v-if="center || right" />
 		<h1 class="headline text-capitalize">{{ title }}</h1>
+		<slot name="trail"></slot>
 		<v-spacer v-if="center" />
 		<slot name="end"></slot>
 	</v-toolbar>

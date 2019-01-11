@@ -1,7 +1,7 @@
 <template>
 	<v-container>
 		<c-title :title="'Rankings'" />
-		<v-data-table :headers="headers" :items="heroes" :rows-per-page-items="perPageItems">
+		<v-data-table :headers="headers" hide-actions :items="heroes">
 			<template slot="items" slot-scope="props">
 				<td class="pa-0">
 					<v-img :src="`/heroes/portrait/${props.item.name.replace(/\s+/g, '-').toLowerCase()}.png`" />
@@ -53,7 +53,6 @@ export default {
 				{ text: 'Raid', sortable: true, value: 'score.raid' },
 				{ text: 'Overall', sortable: true, value: 'score.overall' },
 			],
-			perPageItems: [15, 30, {"text":"All","value":-1}],
 		}
 	},
 	head() {

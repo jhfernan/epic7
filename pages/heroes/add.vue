@@ -106,8 +106,9 @@ export default {
 				}
 				await this.$axios.$post('/api/v1/heroes', this.form)
 				.then(res => {
-					this.$router.push('/heroes')
-				}).catch(err => {
+					this.$router.push(`/heroes/${res._id}`)
+				})
+				.catch(err => {
 					this.util.catchErrors(err, 'There was an error during the creation process', this.$store)
 				})
 			}

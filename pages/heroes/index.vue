@@ -6,7 +6,11 @@
 				<td class="pa-0">
 					<v-img :src="`/heroes/portrait/${props.item.name.replace(/\s+/g, '-').toLowerCase()}.png`" />
 				</td>
-				<td><h2>{{ props.item.name }}</h2></td>
+				<td>
+					<nuxt-link exact :to="`/heroes/${props.item._id}`">
+						<h2>{{ props.item.name }}</h2>
+					</nuxt-link>
+				</td>
 				<td><h2>{{ props.item.stars }}</h2></td>
 				<td :class="color(props.item.score.arena)">
 					<h2>{{ props.item.score.arena }}</h2>

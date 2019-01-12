@@ -1,4 +1,4 @@
-import gravatar from "gravatar";
+import gravatar from "gravatar"
 
 export default {
 	// Helpers
@@ -20,76 +20,9 @@ export default {
 			? store.dispatch(
 					"snack/showSnack",
 					`${err.response.data.status}: ${err.response.data.message}`
-			  )
+				)
 			: store.dispatch("snack/showSnack", message);
 	},
-	chartOptions: {
-		aspectRatio: 1.4,
-		legend: {
-			position: "right"
-		},
-		maintainAspectRatio: false,
-		// responsive: true,
-		responsiveAnimationDuration: 1500
-	},
-	topics: [
-		{ text: "Business", value: "business" },
-		{ text: "C", value: "c" },
-		{ text: "CSS", value: "css" },
-		{ text: "Database", value: "database" },
-		{ text: "Design", value: "design" },
-		{ text: "Go", value: "go" },
-		{ text: "HTML", value: "html" },
-		{ text: "JavaScript", value: "javascript" },
-		{ text: "Python", value: "python" },
-		{ text: "Ruby", value: "ruby" }
-	],
-	switchTopicLogos: subject => {
-		if (subject == "business") return [true, "business_center"];
-		if (subject == "c") return [false, "c.svg"];
-		if (subject == "css") return [true, "fab fa-css3"];
-		if (subject == "database") return [true, "fas fa-database"];
-		if (subject == "design") return [true, "fas fa-pen-fancy"];
-		if (subject == "go") return [false, "gopher.svg"];
-		if (subject == "html") return [true, "fab fa-html5"];
-		if (subject == "javascript") return [true, "fab fa-js-square"];
-		if (subject == "python") return [true, "fab fa-python"];
-		if (subject == "ruby") return [false, "ruby.svg"];
-		return [true, "home"];
-	},
-	subjectsColorWheel: [
-		"#673AB7",
-		"#3F51B5",
-		"#CDDC39",
-		"#F06292",
-		"#FFC107",
-		"#00ADD8",
-		"#E34F26",
-		"#F7DF1E",
-		"#646464",
-		"#9B111E"
-	],
-	subjectsPrettyPrint: [
-		"Business",
-		"C",
-		"CSS",
-		"Database",
-		"Design",
-		"Go",
-		"HTML",
-		"JavaScript",
-		"Python",
-		"Ruby"
-	],
-	permissions: [
-		{ text: "Admin", value: "admin" },
-		{ text: "Manager", value: "manager" },
-		{ text: "Staff", value: "staff" },
-		{ text: "Developer", value: "developer" },
-		{ text: "Teacher", value: "teacher" },
-		{ text: "Teaching Assistant", value: "teachingAssistant" },
-		{ text: "Student", value: "student" }
-	],
 
 	// Form rules
 	rules: {
@@ -139,4 +72,4 @@ export default {
 				"Must be between 5 and 20 characters"
 		]
 	}
-};
+}

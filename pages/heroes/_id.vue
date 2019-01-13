@@ -16,8 +16,17 @@
 			</c-title>
 			<v-layout row wrap>
 				<v-flex xs12 md3>
-					<v-img
-						:src="`/heroes/portrait/${hero.name.replace(/\s+/g, '-').toLowerCase()}.png`" />
+					<v-img :src="`/heroes/portrait/${hero.name.replace(/\s+/g, '-').toLowerCase()}.png`" />
+					<v-layout row>
+						<v-flex class="text-xs-center title" :key="rank" v-for="rank in ['arena', 'hunt', 'abyss', 'raid']" xs3>
+							<h3 class="text-capitalize my-2">{{ rank }}</h3>
+							<p :class="color(hero.score[rank])">{{ hero.score[rank] }}</p>
+						</v-flex>
+					</v-layout>
+					<div>
+						<h3>Recommended Sets</h3>
+						<markdown class="subheading">{{ hero.recommended.sets }}</markdown>
+					</div>
 				</v-flex>
 				<v-flex class="px-5" xs12 md9>
 					<v-layout row wrap>
@@ -47,12 +56,9 @@
 					<div class="mt-3" v-if="!hero.max && !hero.maxAwakened">
 						<p><strong>No stats added at the moment</strong></p>
 					</div>
-					<v-btn @click="dialog = true" color="accent">
-						{{ hero.max && hero.maxAwakened ? 'Update Stats' : 'Add Stats' }}
-					</v-btn>
 				</v-flex>
 			</v-layout>
-
+			<v-divider class="my-3" />
 
 		</v-container>
 
@@ -66,11 +72,11 @@
 								<template v-for="(stat, i) in stats">
 									<v-flex :key="`max${stat}`" xs6>
 										<h3 v-if="i == 0">Max Stats</h3>
-										<v-text-field :label="stat" :rules="util.required" v-model="form.max[stat]"></v-text-field>
+										<v-text-field :label="stat" type="number" v-model="form.max[stat]" />
 									</v-flex>
 									<v-flex :key="`maxAwakened${stat}`" xs6>
 										<h3 v-if="i == 0">Max Stats</h3>
-										<v-text-field :label="stat" :rules="util.required" v-model="form.maxAwakened[stat]"></v-text-field>
+										<v-text-field :label="stat" type="number" v-model="form.maxAwakened[stat]" />
 									</v-flex>
 								</template>
 							</v-layout>
@@ -86,12 +92,43 @@
 				</v-card-text>
 			</v-card>
 		</v-dialog>
+
+		<v-dialog max-width="700" v-model="dialog2">
+			<v-card>
+				<v-card-title class="headline">Update Scores and Sets</v-card-title>
+				<v-card-text>
+					<v-form lazy-validation ref="form" @submit.prevent="updateSS" v-model="valid">
+						<v-text-field label="Arena" type="number" v-model="form2.score.arena" />
+						<v-text-field label="Hunt" type="number" v-model="form2.score.hunt" />
+						<v-text-field label="Abyss" type="number" v-model="form2.score.abyss" />
+						<v-text-field label="Raid" type="number" v-model="form2.score.raid" />
+
+						<v-textarea label="Recommended Sets" rows="3" v-model="form2.recommended.sets" />
+						<v-toolbar color="transparent" flat>
+							<v-btn @click="dialog2 = false">Cancel</v-btn>
+							<v-spacer></v-spacer>
+							<v-btn @click="updateSS" color="accent" type="submit">
+								Update Scores and Sets
+							</v-btn>
+						</v-toolbar>
+					</v-form>
+				</v-card-text>
+			</v-card>
+		</v-dialog>
+
+		<v-footer app class="pa-4" fixed inset>
+			<v-spacer></v-spacer>
+			<v-btn @click="dialog2 = true" color="accent">Update Scores and Sets</v-btn>
+			<v-btn @click="dialog = true" color="accent">
+				{{ hero.max && hero.maxAwakened ? 'Update Stats' : 'Add Stats' }}
+			</v-btn>
+		</v-footer>
 	</div>
 </template>
 
 <script>
 import computations from '~/components/app/computations.js'
-import utilities from '~/components/app/util.js'
+import util from '~/components/app/util.js'
 
 export default {
 	asyncData ({ app, error, params }) {
@@ -101,7 +138,6 @@ export default {
 					hero: res.find(hero => hero._id == params.id),
 					heroes: res,
 					statRanking: computations.percentileRanking,
-					util: utilities
 				}
 			})
 			.catch(err => { error({ statusCode: '404', message: 'Hero info not found' }) })
@@ -109,9 +145,14 @@ export default {
 	data () {
 		return {
 			dialog: false,
+			dialog2: false,
 			form: {
 				max: {},
 				maxAwakened: {}
+			},
+			form2: {
+				recommended: {},
+				score: {}
 			},
 			stats: [
 				'cp',
@@ -141,18 +182,30 @@ export default {
 		}
 	},
 	methods: {
+		color (score) {
+			return util.color(score)
+		},
 		getRank (level, statType, stat) {
 			let array = Array.from(this.heroes, h => h[level] ? h[level][statType] : -1)
 			return (computations.percentileRanking(array, stat)).toFixed(0)
 		},
+		async updateSS () {
+			await this.$axios.$post(`/api/v1/heroes/${this.hero._id}`, this.form2)
+			.then(res => {
+				this.hero = res
+				this.form2 = { recommended: {}, score: {} }
+				this.dialog2 = false
+			})
+			.catch(err => { this.util.catchErrors(err, 'There was an error trying to update the scores and sets', this.$store) })
+		},
 		async updateStats () {
-			if (this.$refs.form.validate()) {
-				await this.$axios.$post(`/api/v1/heroes/${this.hero._id}`, this.form)
-				.then(res => {
-					this.$router.push('/heroes')
-				})
-				.catch(err => { this.util.catchErrors(err, 'There was an error trying to update the stats', this.$store) })
-			}
+			await this.$axios.$post(`/api/v1/heroes/${this.hero._id}`, this.form)
+			.then(res => {
+				this.hero = res
+				this.form = { max: {}, maxAwakened: {} }
+				this.dialog = false
+			})
+			.catch(err => { this.util.catchErrors(err, 'There was an error trying to update the stats', this.$store) })
 		}
 	},
 	middleware: 'member',

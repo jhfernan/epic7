@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import util from '~/components/app/util.js'
+
 export default {
 	asyncData ({ app, error }) {
 		return app.$axios.$get('/api/v1/heroes')
@@ -37,7 +39,7 @@ export default {
 				v.score.overall = (Object.values(v.score).reduce((a, b) => a + b) / 4).toPrecision(2)
 				return v
 			})
-			return { heroes: heroes }
+			return { heroes: heroes, util: util }
 		})
 		.catch(err => { error({ statusCode: '404', message: 'Heroes not found' }) })
 	},
@@ -55,7 +57,7 @@ export default {
 			],
 		}
 	},
-	head() {
+	head () {
 		return {
 			meta: [
 				{
@@ -68,15 +70,7 @@ export default {
 	},
 	methods: {
 		color (score) {
-			if (score == 10) {
-				return 'blue--text'
-			} else if (score >= 9) {
-				return 'green--text'
-			} else if (score <= 7) {
-				return 'red--text'
-			} else {
-				return ''
-			}
+			return util.color(score)
 		},
 	},
 	middleware: 'guest'

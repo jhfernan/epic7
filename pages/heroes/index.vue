@@ -105,15 +105,7 @@ export default {
 	},
 	methods: {
 		color (score) {
-			if (score == 10) {
-				return 'blue--text'
-			} else if (score >= 9) {
-				return 'green--text'
-			} else if (score <= 7) {
-				return 'red--text'
-			} else {
-				return ''
-			}
+			return util.color(score)
 		},
 		async deleteHero () {
 			this.loader = true

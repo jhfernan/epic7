@@ -24,6 +24,18 @@ export default {
 			: store.dispatch("snack/showSnack", message);
 	},
 
+	color: score => {
+		if (score == 10) {
+			return 'blue--text'
+		} else if (score >= 9) {
+			return 'green--text'
+		} else if (score <= 6) {
+			return 'red--text'
+		} else {
+			return ''
+		}
+	},
+
 	// Form rules
 	rules: {
 		confirmPassword: password => {
@@ -55,15 +67,6 @@ export default {
 		required: [v => !!v || "This is required"],
 		selectOne: [
 			v => (v && v.length > 0) || "You must select at least one choice"
-		],
-		title: [
-			v => !!v || "The title is required",
-			v => (v && v.length <= 75) || "The title must be 75 characters or less"
-		],
-		usernamePassword: [
-			v =>
-				(v && v.length <= 20 && v.length >= 5) ||
-				"Must be between 5 and 20 characters"
 		],
 		usernamePassword: [
 			v => !!v || "This is required",

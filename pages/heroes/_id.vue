@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<v-container>
-			<c-title :title="hero.name">
+			<c-title class="mb-3" right :title="hero.name">
 				<template slot="lead">
 					<v-btn class="mr-3" color="accent" exact fab small to="/heroes">
 						<v-icon>first_page</v-icon>
@@ -12,6 +12,12 @@
 						<span :class="hero.element"></span>
 						<span :class="hero.class.replace(/\s+/g, '-')"></span>
 					</div>
+				</template>
+				<template slot="end">
+					<h2 class="title">{{ nextChamp().name }}</h2>
+					<v-btn class="ml-3" color="accent" exact fab small :to="`/heroes/${nextChamp()._id}`">
+						<v-icon>last_page</v-icon>
+					</v-btn>
 				</template>
 			</c-title>
 			<v-layout row wrap>
@@ -191,6 +197,11 @@ export default {
 		getRank (level, statType, stat) {
 			let array = Array.from(this.heroes, h => h[level] ? h[level][statType] : -1)
 			return (computations.percentileRanking(array, stat)).toFixed(0)
+		},
+		nextChamp () {
+			let index = this.heroes.findIndex(x => x._id == this.hero._id)
+			let nextIndex = (index + 1) < this.heroes.length ? index + 1 : 0
+			return this.heroes[nextIndex]
 		},
 		async updateSS () {
 			await this.$axios.$put(`/api/v1/heroes/${this.hero._id}`, this.form2)

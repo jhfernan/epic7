@@ -1,7 +1,7 @@
 <template>
 	<v-container fluid>
 		<c-title :title="'Manage Heroes'" />
-		<v-data-table class="elevation-1 my-3" :headers="headers" :items="heroes" :rows-per-page-items="perPageItems">
+		<v-data-table class="elevation-1 my-3" :headers="headers" hide-actions :items="heroes">
 			<template slot="items" slot-scope="props">
 				<td class="pa-0">
 					<v-img :src="`/heroes/portrait/${props.item.name.replace(/\s+/g, '-').toLowerCase()}.png`" />
@@ -91,9 +91,7 @@ export default {
 				{ text: 'Recommended Sets', sortable: false, value: 'recommended.sets' },
 				{ text: 'Actions', align: 'right', value: 'actions' },
 			],
-			loader: false,
-			perPageItems: [15, 30, {"text":"All","value":-1}],
-			util: util,
+			loader: false
 		}
 	},
 	head () {
@@ -119,7 +117,7 @@ export default {
 				this.dialog = false
 				this.deleteHeroInfo = {}
 			})
-			.catch(err => { this.util.catchErrors(err, 'There was an error deleting the hero', this.$store) })
+			.catch(err => { util.catchErrors(err, 'There was an error deleting the hero', this.$store) })
 			.finally(() => {
 				this.loader = false
 			})

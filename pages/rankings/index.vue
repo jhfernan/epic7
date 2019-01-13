@@ -23,6 +23,9 @@
 				<td :class="color(props.item.score.overall)">
 					<h2>{{ props.item.score.overall }}</h2>
 				</td>
+				<td class="markdown-naked pt-1">
+					<markdown v-if="props.item.recommended">{{ props.item.recommended.sets }}</markdown>
+				</td>
 			</template>
 		</v-data-table>
 	</v-container>
@@ -54,6 +57,7 @@ export default {
 				{ text: 'Abyss', sortable: true, value: 'score.abyss' },
 				{ text: 'Raid', sortable: true, value: 'score.raid' },
 				{ text: 'Overall', sortable: true, value: 'score.overall' },
+				{ text: 'Recommended Sets', sortable: false, value: 'recommended.sets' },
 			],
 		}
 	},

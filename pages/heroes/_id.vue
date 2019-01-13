@@ -23,9 +23,12 @@
 							<p :class="color(hero.score[rank])">{{ hero.score[rank] }}</p>
 						</v-flex>
 					</v-layout>
-					<div>
+					<div v-if="hero.recommended">
 						<h3>Recommended Sets</h3>
-						<markdown class="subheading">{{ hero.recommended.sets }}</markdown>
+						<markdown class="subheading" v-if="hero.recommended.sets">{{ hero.recommended.sets }}</markdown>
+					</div>
+					<div class="text-xs-center" v-else>
+						<h3>Recommended Sets not added yet</h3>
 					</div>
 				</v-flex>
 				<v-flex class="px-5" xs12 md9>
@@ -190,7 +193,7 @@ export default {
 			return (computations.percentileRanking(array, stat)).toFixed(0)
 		},
 		async updateSS () {
-			await this.$axios.$post(`/api/v1/heroes/${this.hero._id}`, this.form2)
+			await this.$axios.$put(`/api/v1/heroes/${this.hero._id}`, this.form2)
 			.then(res => {
 				this.hero = res
 				this.form2 = { recommended: {}, score: {} }
@@ -199,7 +202,7 @@ export default {
 			.catch(err => { this.util.catchErrors(err, 'There was an error trying to update the scores and sets', this.$store) })
 		},
 		async updateStats () {
-			await this.$axios.$post(`/api/v1/heroes/${this.hero._id}`, this.form)
+			await this.$axios.$put(`/api/v1/heroes/${this.hero._id}`, this.form)
 			.then(res => {
 				this.hero = res
 				this.form = { max: {}, maxAwakened: {} }

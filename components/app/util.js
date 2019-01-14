@@ -25,9 +25,9 @@ export default {
 	},
 
 	color: score => {
-		if (score == 10) {
+		if (score >= 9.5) {
 			return 'blue--text'
-		} else if (score >= 9) {
+		} else if (score >= 8) {
 			return 'green--text'
 		} else if (score <= 6) {
 			return 'red--text'

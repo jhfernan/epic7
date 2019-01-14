@@ -73,21 +73,23 @@
 
 		<v-dialog max-width="1200" v-model="dialog">
 			<v-card>
-				<v-card-title class="headline">Update Stats</v-card-title>
-				<v-card-text>
+				<v-card-title class="headline pb-0">Update Stats</v-card-title>
+				<v-card-text class="pt-0">
 					<v-form lazy-validation ref="form" @submit.prevent="updateStats" v-model="valid">
 						<v-container grid-list-lg>
 							<v-layout row wrap>
-								<template v-for="(stat, i) in stats">
-									<v-flex :key="`max${stat}`" xs6>
-										<h3 v-if="i == 0">Max Stats</h3>
-										<v-text-field :label="stat" type="number" v-model="form.max[stat]" />
-									</v-flex>
-									<v-flex :key="`maxAwakened${stat}`" xs6>
-										<h3 v-if="i == 0">Max Stats</h3>
-										<v-text-field :label="stat" type="number" v-model="form.maxAwakened[stat]" />
-									</v-flex>
-								</template>
+								<v-flex xs6>
+									<h3>Max Stats</h3>
+									<template v-for="stat in stats">
+										<v-text-field :key="`max${stat}`" :label="stat" type="number" v-model="form.max[stat]" />
+									</template>
+								</v-flex>
+								<v-flex xs6>
+									<h3>Max Awakened Stats</h3>
+									<template v-for="stat in stats">
+										<v-text-field :key="`maxAwakened${stat}`" :label="stat" type="number" v-model="form.maxAwakened[stat]" />
+									</template>
+								</v-flex>
 							</v-layout>
 						</v-container>
 						<v-toolbar color="transparent" flat>

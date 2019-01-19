@@ -46,6 +46,8 @@
 									<strong>{{ stat }}</strong>
 									<span>: {{ `${hero.max[stat]}${i > 4 ? '%' : ''}` }}</span>
 									<span> - ({{ getRank('max', stat, hero.max[stat]) }}%)</span>
+									<span> - {{ getFrequency('max', stat, hero.max[stat]) }}</span>
+									<span> out of {{ getHeroes('max', stat).length }}</span>
 								</p>
 							</template>
 						</v-flex>
@@ -57,6 +59,8 @@
 										<strong>{{ stat }}</strong>
 										<span>: {{ `${hero.maxAwakened[stat]}${i > 4 ? '%' : ''}` }}</span>
 										<span> - ({{ getRank('maxAwakened', stat, hero.maxAwakened[stat]) }}%)</span>
+										<span> - {{ getFrequency('maxAwakened', stat, hero.maxAwakened[stat]) }}</span>
+										<span> out of {{ getHeroes('maxAwakened', stat).length }}</span>
 									</p>
 								</template>
 							</v-flex>
@@ -196,8 +200,20 @@ export default {
 		color (score) {
 			return util.color(score)
 		},
-		getRank (level, statType, stat) {
+		getFrequency (level, statType, stat) {
+			let array = this.getHeroes(level, statType)
+			console.log(array)
+			console.log('statType: ', statType)
+			console.log('stat: ', stat)
+			return computations.scoreFrequency(array, stat)
+		},
+		getHeroes (level, statType) {
 			let array = Array.from(this.heroes, h => h[level] ? h[level][statType] : -1)
+			array = array.filter(v => v != -1)
+			return array
+		},
+		getRank (level, statType, stat) {
+			let array = this.getHeroes(level, statType)
 			return (computations.percentileRanking(array, stat)).toFixed(0)
 		},
 		nextChamp () {

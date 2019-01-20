@@ -202,9 +202,6 @@ export default {
 		},
 		getFrequency (level, statType, stat) {
 			let array = this.getHeroes(level, statType)
-			console.log(array)
-			console.log('statType: ', statType)
-			console.log('stat: ', stat)
 			return computations.scoreFrequency(array, stat)
 		},
 		getHeroes (level, statType) {

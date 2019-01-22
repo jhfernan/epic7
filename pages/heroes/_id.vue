@@ -48,8 +48,8 @@
 					<template v-for="(stat, i) in stats" v-if="hero.max">
 						<p class="mb-0 subheading" :key="`max${stat}`">
 							<strong>{{ stat }}</strong>
-							<span>: {{ `${hero.max[stat]}${i > 4 ? '%' : ''}` }}</span>
-							<span v-if="showRank">: ({{ getRank('max', stat, hero.max[stat]) }}%) - {{ getFrequency('max', stat, hero.max[stat]) }}</span>
+							<span v-if="!showRank">: {{ `${hero.max[stat]}${i > 4 ? '%' : ''}` }}</span>
+							<span v-else>: ({{ getRank('max', stat, hero.max[stat]) }}%) - {{ getFrequency('max', stat, hero.max[stat]) }}</span>
 							<span v-if="showRank"> out of {{ getHeroes('max', stat).length }}</span>
 						</p>
 					</template>
@@ -59,8 +59,8 @@
 					<template v-for="(stat, i) in stats" v-if="hero.maxAwakened">
 						<p class="mb-0 subheading" :key="`max${stat}`">
 							<strong>{{ stat }}</strong>
-							<span>: {{ `${hero.maxAwakened[stat]}${i > 4 ? '%' : ''}` }}</span>
-							<span v-if="showRank">: ({{ getRank('maxAwakened', stat, hero.maxAwakened[stat]) }}%) - {{ getFrequency('maxAwakened', stat, hero.maxAwakened[stat]) }}</span>
+							<span v-if="!showRank">: {{ `${hero.maxAwakened[stat]}${i > 4 ? '%' : ''}` }}</span>
+							<span v-else>: ({{ getRank('maxAwakened', stat, hero.maxAwakened[stat]) }}%) - {{ getFrequency('maxAwakened', stat, hero.maxAwakened[stat]) }}</span>
 							<span v-if="showRank"> out of {{ getHeroes('maxAwakened', stat).length }}</span>
 						</p>
 					</template>

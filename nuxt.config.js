@@ -17,14 +17,12 @@ module.exports = {
 			{
 				rel: "stylesheet",
 				type: "text/css",
-				href:
-					"https://fonts.googleapis.com/css?family=Indie+Flower|Material+Icons|Montserrat|Roboto:300,400,500,700"
+				href: "https://fonts.googleapis.com/css?family=Indie+Flower|Material+Icons|Montserrat|Roboto:300,400,500,700"
 			},
 			{
 				rel: "stylesheet",
 				href: "https://use.fontawesome.com/releases/v5.1.0/css/all.css",
-				integrity:
-					"sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt",
+				integrity: "sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt",
 				crossorigin: "anonymous"
 			}
 		]

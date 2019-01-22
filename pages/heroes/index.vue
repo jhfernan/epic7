@@ -27,14 +27,11 @@
 				<td :class="color(props.item.score.overall)">
 					<h2>{{ props.item.score.overall }}</h2>
 				</td>
-				<td class="markdown-naked pt-1">
-					<markdown v-if="props.item.recommended">{{ props.item.recommended.sets }}</markdown>
-				</td>
-				<td class="text-xs-right">
+				<!-- <td class="text-xs-right">
 					<v-btn @click="prompt(props.item)" color="error" icon>
 						<v-icon>delete</v-icon>
 					</v-btn>
-				</td>
+				</td> -->
 			</template>
 		</v-data-table>
 
@@ -88,8 +85,7 @@ export default {
 				{ text: 'Abyss', sortable: true, value: 'score.abyss' },
 				{ text: 'Raid', sortable: true, value: 'score.raid' },
 				{ text: 'Overall', sortable: true, value: 'score.overall' },
-				{ text: 'Recommended Sets', sortable: false, value: 'recommended.sets' },
-				{ text: 'Actions', align: 'right', value: 'actions' },
+				// { text: 'Actions', align: 'right', value: 'actions' },
 			],
 			loader: false
 		}

@@ -5,16 +5,6 @@ export default {
 	avatar: (email, size = 70) => {
 		return gravatar.url(email, { s: size, r: "x", d: "mm" }, true);
 	},
-	// tabber (event, body) {
-	// 	let text = body,
-	// 		originalSelectionStart = event.target.selectionStart,
-	// 		textStart = text.slice(0, originalSelectionStart),
-	// 		textEnd =  text.slice(originalSelectionStart);
-	//
-	// 	body = `${textStart}\t${textEnd}`
-	// 	event.target.value = body
-	// 	event.target.selectionEnd = event.target.selectionStart = originalSelectionStart + 1
-	// },
 	catchErrors: (err, message, store) => {
 		err.response
 			? store.dispatch(

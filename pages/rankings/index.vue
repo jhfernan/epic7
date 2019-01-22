@@ -1,6 +1,9 @@
 <template>
 	<v-container>
 		<c-title :title="'Rankings'" />
+		<v-container>
+			Hello World
+		</v-container>
 		<v-data-table :headers="headers" hide-actions :items="heroes">
 			<template slot="items" slot-scope="props">
 				<td class="pa-0">

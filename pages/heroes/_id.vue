@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-container>
+		<v-container fluid>
 			<c-title class="mb-3" right :title="hero.name">
 				<template slot="lead">
 					<v-btn class="mr-3" color="accent" exact fab small to="/heroes">
@@ -20,8 +20,11 @@
 					</v-btn>
 				</template>
 			</c-title>
-			<v-layout row wrap>
-				<v-flex xs12 md3>
+		</v-container>
+
+		<v-container>
+			<v-layout justify-center>
+				<v-flex xs10 sm8 md6 lg4>
 					<v-img :src="`/heroes/portrait/${hero.name.replace(/\s+/g, '-').toLowerCase()}.png`" />
 					<v-layout row>
 						<v-flex class="text-xs-center title" :key="rank" v-for="rank in ['arena', 'hunt', 'abyss', 'raid']" xs3>
@@ -37,40 +40,45 @@
 						<h3>Recommended Sets not added yet</h3>
 					</div>
 				</v-flex>
-				<v-flex class="px-5" xs12 md9>
-					<v-layout row wrap>
-						<v-flex xs12 md6>
-							<h3>Max Stats</h3>
-							<template v-for="(stat, i) in stats" v-if="hero.max">
-								<p class="mb-0 subheading" :key="`max${stat}`">
-									<strong>{{ stat }}</strong>
-									<span>: {{ `${hero.max[stat]}${i > 4 ? '%' : ''}` }}</span>
-									<span> - ({{ getRank('max', stat, hero.max[stat]) }}%)</span>
-									<span> - {{ getFrequency('max', stat, hero.max[stat]) }}</span>
-									<span> out of {{ getHeroes('max', stat).length }}</span>
-								</p>
-							</template>
-						</v-flex>
-						<v-flex xs12 md6>
-							<v-flex xs12 md6>
-								<h3>Max Awakened Stats</h3>
-								<template v-for="(stat, i) in stats" v-if="hero.maxAwakened">
-									<p class="mb-0 subheading" :key="`max${stat}`">
-										<strong>{{ stat }}</strong>
-										<span>: {{ `${hero.maxAwakened[stat]}${i > 4 ? '%' : ''}` }}</span>
-										<span> - ({{ getRank('maxAwakened', stat, hero.maxAwakened[stat]) }}%)</span>
-										<span> - {{ getFrequency('maxAwakened', stat, hero.maxAwakened[stat]) }}</span>
-										<span> out of {{ getHeroes('maxAwakened', stat).length }}</span>
-									</p>
-								</template>
-							</v-flex>
-						</v-flex>
-					</v-layout>
-					<div class="mt-3" v-if="!hero.max && !hero.maxAwakened">
-						<p><strong>No stats added at the moment</strong></p>
-					</div>
+			</v-layout>
+			<v-divider class="my-4" />
+			<v-layout class="text-xs-center" row wrap>
+				<v-flex xs12 md5>
+					<h3 class="mb-2">Max Stats</h3>
+					<template v-for="(stat, i) in stats" v-if="hero.max">
+						<p class="mb-0 subheading" :key="`max${stat}`">
+							<strong>{{ stat }}</strong>
+							<span>: {{ `${hero.max[stat]}${i > 4 ? '%' : ''}` }}</span>
+							<span v-if="showRank">: ({{ getRank('max', stat, hero.max[stat]) }}%) - {{ getFrequency('max', stat, hero.max[stat]) }}</span>
+							<span v-if="showRank"> out of {{ getHeroes('max', stat).length }}</span>
+						</p>
+					</template>
+				</v-flex>
+				<v-flex xs12 md5>
+					<h3 class="mb-2">Max Awakened Stats</h3>
+					<template v-for="(stat, i) in stats" v-if="hero.maxAwakened">
+						<p class="mb-0 subheading" :key="`max${stat}`">
+							<strong>{{ stat }}</strong>
+							<span>: {{ `${hero.maxAwakened[stat]}${i > 4 ? '%' : ''}` }}</span>
+							<span v-if="showRank">: ({{ getRank('maxAwakened', stat, hero.maxAwakened[stat]) }}%) - {{ getFrequency('maxAwakened', stat, hero.maxAwakened[stat]) }}</span>
+							<span v-if="showRank"> out of {{ getHeroes('maxAwakened', stat).length }}</span>
+						</p>
+					</template>
+				</v-flex>
+				<v-flex xs12 md2>
+					<v-btn-toggle dark v-model="showRank">
+						<v-btn flat :value="false">
+							Show Stats
+						</v-btn>
+						<v-btn flat :value="true">
+							Show Rankings
+						</v-btn>
+					</v-btn-toggle>
 				</v-flex>
 			</v-layout>
+			<div class="mt-3 text-xs-center" v-if="!hero.max && !hero.maxAwakened">
+				<h3>No stats added at the moment</h3>
+			</div>
 			<v-divider class="my-3" />
 
 		</v-container>
@@ -169,6 +177,7 @@ export default {
 				recommended: {},
 				score: {}
 			},
+			showRank: false,
 			stats: [
 				'cp',
 				'attack',

@@ -35,3 +35,17 @@ a:hover
 .v-btn.true-flat:hover
 	background-color: transparent !important
 	box-shadow: none !important
+
+// Grid Resets
+.container
+	sizes = (576 540) (768 720) (992 960) (1200 1140) (1400 1350)
+	for size in sizes
+		@media (min-width: (size[0])px)
+			max-width: (size[1])px
+
+.container, .container-fluid
+	width: 100%
+	padding-right: 15px
+	padding-left: 15px
+	margin-right: auto
+	margin-left: auto

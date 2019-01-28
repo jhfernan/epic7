@@ -3,8 +3,9 @@
 		<slot name="lead"></slot>
 		<v-spacer v-if="center" />
 		<h1 class="headline text-capitalize">{{ title }}</h1>
+		<v-spacer v-if="centerTrail" />
 		<slot name="trail"></slot>
-		<v-spacer v-if="right" />
+		<v-spacer v-if="right || centerTrail" />
 		<slot name="end"></slot>
 	</v-toolbar>
 </template>
@@ -13,6 +14,10 @@
 export default {
 	props: {
 		center: {
+			type: Boolean,
+			default: false
+		},
+		centerTrail: {
 			type: Boolean,
 			default: false
 		},

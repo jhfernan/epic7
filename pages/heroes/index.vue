@@ -1,7 +1,11 @@
 <template>
 	<v-container fluid>
-		<c-title :title="'Manage Heroes'" />
-		<v-data-table class="elevation-1 my-3" :headers="headers" hide-actions :items="heroes">
+		<c-title class="mb-3" centerTrail :title="$auth.loggedIn && $auth.user.admin ? 'Manage Heroes' : 'Hero Rankings'">
+			<template slot="trail">
+				<v-text-field hide-details prepend-icon="search" single-line v-model="search" />
+			</template>
+		</c-title>
+		<v-data-table class="elevation-1 my-3" :headers="headers" hide-actions :items="heroes" :search="search">
 			<template slot="items" slot-scope="props">
 				<td class="pa-0">
 					<v-img :src="`/heroes/portrait/${props.item.name.replace(/\s+/g, '-').toLowerCase()}.png`" />
@@ -92,7 +96,8 @@ export default {
 		return {
 			deleteHeroInfo: {},
 			dialog: false,
-			loader: false
+			loader: false,
+			search: ''
 		}
 	},
 	head () {

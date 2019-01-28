@@ -246,6 +246,6 @@ export default {
 			.catch(err => { this.util.catchErrors(err, 'There was an error trying to update the stats', this.$store) })
 		}
 	},
-	middleware: 'member',
+	// middleware: 'member',
 }
 </script>

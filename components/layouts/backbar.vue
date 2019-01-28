@@ -19,8 +19,8 @@
 		<div @mouseover="setState(false)" @mouseout="setState(true)">
 			<v-navigation-drawer
 				app
-				dark
 				fixed
+				light
 				:mini-variant="$store.state.nav.minivariant"
 				v-model="drawer">
 				<v-list class="pt-0">

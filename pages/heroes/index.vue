@@ -27,15 +27,15 @@
 				<td :class="color(props.item.score.overall)">
 					<h2>{{ props.item.score.overall }}</h2>
 				</td>
-				<!-- <td class="text-xs-right">
+				<td class="text-xs-right" v-if="$auth.loggedIn && $auth.user.admin">
 					<v-btn @click="prompt(props.item)" color="error" icon>
 						<v-icon>delete</v-icon>
 					</v-btn>
-				</td> -->
+				</td>
 			</template>
 		</v-data-table>
 
-		<v-btn bottom color="success" fab fixed right router to="/heroes/add">
+		<v-btn bottom color="success" fab fixed right router to="/heroes/add" v-if="$auth.loggedIn && $auth.user.admin">
 			<v-icon>person_add</v-icon>
 		</v-btn>
 
@@ -68,15 +68,7 @@ export default {
 				v.score.overall = (Object.values(v.score).reduce((a, b) => a + b) / 4).toPrecision(2)
 				return v
 			})
-			return { heroes: heroes }
-		})
-		.catch(err => { error({ statusCode: '404', message: 'Heroes not found' }) })
-	},
-	data () {
-		return {
-			deleteHeroInfo: {},
-			dialog: false,
-			headers: [
+			let headers = [
 				{ text: 'Portrait', sortable: false, value: 'name' },
 				{ text: 'Name', align: 'left', sortable: true, value: 'name' },
 				{ text: 'Stars', sortable: true, value: 'stars' },
@@ -85,8 +77,21 @@ export default {
 				{ text: 'Abyss', sortable: true, value: 'score.abyss' },
 				{ text: 'Raid', sortable: true, value: 'score.raid' },
 				{ text: 'Overall', sortable: true, value: 'score.overall' },
-				// { text: 'Actions', align: 'right', value: 'actions' },
-			],
+			]
+			if (app.$auth.loggedIn && app.$auth.user.admin) {
+				headers.push({ text: 'Actions', align: 'right', value: 'actions' })
+			}
+			return {
+				heroes: heroes,
+				headers: headers
+			}
+		})
+		.catch(err => { error({ statusCode: '404', message: 'Heroes not found' }) })
+	},
+	data () {
+		return {
+			deleteHeroInfo: {},
+			dialog: false,
 			loader: false
 		}
 	},
@@ -123,6 +128,5 @@ export default {
 			this.dialog = true
 		},
 	},
-	middleware: 'member',
 }
 </script>

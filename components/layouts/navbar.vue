@@ -34,11 +34,11 @@ export default {
 			drawer: false,
 			links: [
 				{ name: "Home", to: "/" },
-				{ name: "Hero Ranking", to: "/rankings" }
+				{ name: "Hero Ranking", to: "/heroes" }
 			],
 			linksTwo: [
-				{ name: "About", to: "/about" },
-				{ name: "Support Us", to: "/support" },
+				// { name: "About", to: "/about" },
+				// { name: "Support Us", to: "/support" },
 				{ name: "Login", to: "/login" }
 			]
 		};
